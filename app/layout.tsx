@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Noto_Sans_KR } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import { profile } from "@/data/profile";
+// Pretendard: 페이지에 쓰인 글자가 든 조각만 내려받는 dynamic subset 버전
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -8,13 +10,6 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500", "700", "800"],
   variable: "--font-jetbrains-mono",
   display: "swap",
-});
-
-const notoSansKr = Noto_Sans_KR({
-  weight: ["400", "500", "700", "900"],
-  variable: "--font-noto-sans-kr",
-  display: "swap",
-  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -28,7 +23,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ko" className={`${jetbrainsMono.variable} ${notoSansKr.variable}`}>
+    <html lang="ko" className={jetbrainsMono.variable}>
       <body>
         {children}
         {/* JS가 꺼져 있으면 타임라인 카드를 바로 표시 */}

@@ -18,14 +18,21 @@ npm run build    # 프로덕션 빌드
 | 파일 | 내용 |
 | --- | --- |
 | `data/profile.ts` | 이름, 직함(from → to), 저작권 연도 |
-| `data/journey.ts` | 타임라인 항목. `stack`, `skills`, `highlights`, `logs`, `command`는 선택 필드이고, `current: true`인 항목은 앰버 색으로 강조됩니다 |
+| `data/journey.ts` | 타임라인 섹션 제목(`journeyTitle`)과 항목. `stack`, `skills`, `highlights`, `logs`, `command`는 선택 필드이고, `current: true`인 항목은 앰버 색으로 강조됩니다 |
 | `data/contact.ts` | 연락처 버튼 (Email / GitHub / Blog) |
+| `data/nameArt.ts` | 첫 화면의 이름 ASCII 아트 (자동 생성) |
+
+이름을 바꿨다면 ASCII 아트도 다시 만드세요. 한글 픽셀 글꼴 [갈무리](https://github.com/quiple/galmuri) 11 Bold의 픽셀을 `#`/`.` 도트로 옮깁니다.
+
+```bash
+npm run name-art -- 권지현
+```
 
 ## 구조
 
 ```
 app/
-  layout.tsx       폰트(next/font), 메타데이터
+  layout.tsx       폰트(JetBrains Mono: next/font, Pretendard: npm), 메타데이터
   page.tsx         섹션 조합
   globals.css      테마 색상, 애니메이션, reduced-motion 처리
 components/

@@ -1,4 +1,4 @@
-import { journey, type JourneyEntry } from "@/data/journey";
+import { journey, journeyTitle, type JourneyEntry } from "@/data/journey";
 import RevealItem from "./RevealItem";
 
 function Card({ entry }: { entry: JourneyEntry }) {
@@ -103,12 +103,9 @@ export default function Timeline() {
         </p>
         <h2
           id="journey-title"
-          className="text-[27px] leading-[1.4] font-black tracking-[-0.02em] text-fg-strong md:text-[42px] md:leading-[1.3]"
+          className="max-w-[20ch] text-[clamp(1.75rem,6vw,2.625rem)] leading-[1.3] font-black tracking-[-0.02em] break-keep text-balance text-fg-strong"
         >
-          코드를 짜던 사람이,
-          <br />
-          코드가 돌아갈 곳을 <br className="md:hidden" />
-          만들기까지
+          {journeyTitle}
         </h2>
       </header>
 
