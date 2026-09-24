@@ -1,12 +1,23 @@
 import { journey, journeyTitle, type JourneyEntry } from "@/data/journey";
 import RevealItem from "./RevealItem";
 
+/** 끝에 붙은 "(2018 — 2020)" 같은 괄호는 줄이 바뀌어도 한 덩어리로 넘어가게 함 */
+function HighlightText({ text }: { text: string }) {
+  const match = text.match(/^(.*?)\s*(\([^()]*\))$/);
+  if (!match) return <span className="text-soft">{text}</span>;
+  return (
+    <span className="text-soft">
+      {match[1]} <span className="whitespace-nowrap">{match[2]}</span>
+    </span>
+  );
+}
+
 function Card({ entry }: { entry: JourneyEntry }) {
   const current = entry.current ?? false;
 
   return (
     <article
-      className={`reveal-card flex flex-col gap-3.5 rounded-xl border px-5 py-[22px] sm:px-[30px] sm:py-7 ${
+      className={`reveal-card flex flex-col gap-3.5 rounded-xl break-keep border px-5 py-[22px] sm:px-[30px] sm:py-7 ${
         current ? "card-current border-amber/45 bg-[#120f0a]" : "border-line bg-panel"
       }`}
     >
@@ -20,7 +31,9 @@ function Card({ entry }: { entry: JourneyEntry }) {
         >
           {entry.kind}
         </span>
-        <span className={`text-right ${current ? "text-amber" : "text-muted"}`}>{entry.period}</span>
+        {entry.period && (
+          <span className={`text-right ${current ? "text-amber" : "text-muted"}`}>{entry.period}</span>
+        )}
       </div>
 
       <h3
@@ -34,7 +47,11 @@ function Card({ entry }: { entry: JourneyEntry }) {
           {entry.logs.map((log, i) => (
             <div key={i}>
               <span className="text-muted">{log.time}</span>{" "}
-              <span className={`font-bold ${log.level === "ALERT" ? "text-amber" : "text-green"}`}>
+              <span
+                className={`font-bold ${
+                  log.level === "ALERT" ? "text-amber" : log.level === "INFO" ? "text-fg" : "text-green"
+                }`}
+              >
                 {log.level}
               </span>{" "}
               <span className="text-soft">{log.message}</span>
@@ -54,7 +71,7 @@ function Card({ entry }: { entry: JourneyEntry }) {
               <span className="text-green" aria-hidden="true">
                 ✓
               </span>{" "}
-              <span className="text-soft">{item}</span>
+              <HighlightText text={item} />
             </li>
           ))}
         </ul>
@@ -68,6 +85,22 @@ function Card({ entry }: { entry: JourneyEntry }) {
             </li>
           ))}
         </ul>
+      )}
+
+      {entry.certs && (
+        <div className="rounded-lg border border-[#1a241e] bg-panel-deep px-4 py-3 font-mono text-[13px] leading-[1.8]">
+          <p className="text-muted">
+            <span className="text-green">$</span> ls -tr ~/certs
+          </p>
+          <ul aria-label="자격증">
+            {entry.certs.map((cert) => (
+              <li key={cert.name} className="flex justify-between gap-4">
+                <span className="text-soft">{cert.name}</span>
+                <span className="shrink-0 text-muted">{cert.date}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {entry.skills && (

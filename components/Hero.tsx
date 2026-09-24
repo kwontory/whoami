@@ -86,8 +86,8 @@ export default function Hero() {
       </div>
 
       <a
-        href="#timeline"
-        aria-label="타임라인 섹션으로 스크롤"
+        href="#about"
+        aria-label="다음 섹션으로 스크롤"
         className="hero-scroll absolute bottom-8 left-1/2 flex min-h-16 w-20 -translate-x-1/2 flex-col items-center gap-1.5 pl-[0.3em] font-mono text-[11px] tracking-[0.3em] text-muted no-underline transition-colors hover:text-green sm:bottom-10 sm:text-xs"
       >
         <span>SCROLL</span>

@@ -19,7 +19,8 @@ npm run build    # 프로덕션 빌드
 | --- | --- |
 | `data/profile.ts` | 이름, 직함(from → to), 저작권 연도 |
 | `data/journey.ts` | 타임라인 섹션 제목(`journeyTitle`)과 항목. `stack`, `skills`, `highlights`, `logs`, `command`는 선택 필드이고, `current: true`인 항목은 앰버 색으로 강조됩니다 |
-| `data/contact.ts` | 연락처 버튼 (Email / GitHub / Blog) |
+| `data/about.ts` | 타임라인 위 `$ cat ~/about.txt` 소개 글 (문자열 하나 = 문단 하나) |
+| `data/contact.ts` | 마지막 섹션 명령어(`outroCommand`)·제목(`contactTitle`)과 연락처 버튼. 버튼은 `hidden: true`로 숨김 |
 | `data/nameArt.ts` | 첫 화면의 이름 ASCII 아트 (자동 생성) |
 
 이름을 바꿨다면 ASCII 아트도 다시 만드세요. 한글 픽셀 글꼴 [갈무리](https://github.com/quiple/galmuri) 11 Bold의 픽셀을 `#`/`.` 도트로 옮깁니다.
@@ -37,9 +38,10 @@ app/
   globals.css      테마 색상, 애니메이션, reduced-motion 처리
 components/
   Hero.tsx         터미널 + whoami 타이핑
+  About.tsx        about.txt 소개 글
   Timeline.tsx     journey.log 타임라인
   RevealItem.tsx   IntersectionObserver로 스크롤 등장 처리 (client)
-  Contact.tsx      contact.sh 버튼 + exit 0
+  Contact.tsx      마지막 인사 + 연락처 버튼 + exit 0
 data/              수정용 데이터
 ```
 
