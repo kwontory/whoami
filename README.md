@@ -19,7 +19,7 @@ npm run build    # 프로덕션 빌드
 | --- | --- |
 | `data/profile.ts` | 이름, 직함(from → to), 저작권 연도 |
 | `data/journey.ts` | 타임라인 섹션 제목(`journeyTitle`)과 항목. `stack`, `skills`, `highlights`, `logs`, `command`는 선택 필드이고, `current: true`인 항목은 앰버 색으로 강조됩니다 |
-| `data/about.ts` | 타임라인 위 `$ cat ~/about.txt` 소개 글 (문자열 하나 = 문단 하나) |
+| `data/about.ts` | 타임라인 위 `$ cat ~/about.txt` 섹션. 크게 보이는 핵심 문장(`aboutKey`, 강조할 부분은 `highlight`)과 소개 글(문자열 하나 = 문단 하나) |
 | `data/contact.ts` | 마지막 섹션 명령어(`outroCommand`)·제목(`contactTitle`)과 연락처 버튼. 버튼은 `hidden: true`로 숨김 |
 | `data/nameArt.ts` | 첫 화면의 이름 ASCII 아트 (자동 생성) |
 
