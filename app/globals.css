@@ -1,0 +1,270 @@
+@import "tailwindcss" source(none);
+@source "../app";
+@source "../components";
+
+@theme inline {
+  --color-ink: #07090a;
+  --color-panel: #0c110e;
+  --color-panel-deep: #080b09;
+  --color-bar: #0f1512;
+  --color-line: #1c2820;
+  --color-line-strong: #25332a;
+  --color-rail: #1d2a22;
+  --color-green: #5ef08f;
+  --color-amber: #ffb45c;
+  --color-fg: #e6ede8;
+  --color-fg-strong: #f2f6f3;
+  --color-soft: #c3cec7;
+  --color-body: #a4b0a8;
+  --color-muted: #7d8a82;
+  --color-faint: #5b665f;
+
+  --font-sans: var(--font-noto-sans-kr), "Apple SD Gothic Neo", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-ink);
+  background-image:
+    linear-gradient(rgba(94, 240, 143, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 240, 143, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 767px) {
+  body {
+    background-size: 32px 32px;
+  }
+}
+
+::selection {
+  background: rgba(94, 240, 143, 0.3);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 4px;
+}
+
+/* ───────── Hero: 터미널 ───────── */
+
+.terminal {
+  box-shadow:
+    0 0 0 1px rgba(94, 240, 143, 0.06),
+    0 0 60px rgba(94, 240, 143, 0.12),
+    0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.028) 0px,
+    rgba(255, 255, 255, 0.028) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.scanband {
+  top: -120px;
+  height: 120px;
+  background-image: linear-gradient(180deg, transparent, rgba(94, 240, 143, 0.035), transparent);
+  animation: scan 7s linear infinite;
+}
+
+.type {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  width: 6ch;
+  animation: type 0.9s steps(6, end) 0.7s both;
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.15em;
+  vertical-align: text-bottom;
+  background: var(--color-green);
+  box-shadow: 0 0 10px rgba(94, 240, 143, 0.7);
+  animation: blink 1.05s steps(1, end) infinite;
+}
+
+.cursor-amber {
+  width: 8px;
+  height: 15px;
+  background: var(--color-amber);
+  box-shadow: 0 0 10px rgba(255, 180, 92, 0.7);
+}
+
+.name-glow {
+  text-shadow:
+    0 0 18px rgba(94, 240, 143, 0.55),
+    0 0 48px rgba(94, 240, 143, 0.25);
+  animation: flicker 1.2s ease 1.8s both;
+}
+
+.hero-sub {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 2.25s both;
+}
+
+.hero-prompt {
+  animation: rise 0.5s ease 2.7s both;
+}
+
+.hero-scroll {
+  animation: fadein 0.8s ease 3.4s both;
+}
+
+.bob {
+  animation: bob 1.8s ease-in-out infinite;
+}
+
+/* ───────── Timeline: 스크롤 등장 ───────── */
+
+.reveal-card {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+[data-visible="true"] .reveal-card {
+  opacity: 1;
+  transform: none;
+}
+
+.timeline-dot {
+  background-color: #1a221d;
+  box-shadow: 0 0 0 4px rgba(94, 240, 143, 0);
+  transition:
+    background-color 0.5s ease 0.3s,
+    box-shadow 0.5s ease 0.3s;
+}
+
+[data-visible="true"] .timeline-dot {
+  background-color: var(--color-green);
+  box-shadow:
+    0 0 0 4px rgba(94, 240, 143, 0.16),
+    0 0 16px rgba(94, 240, 143, 0.7);
+}
+
+[data-visible="true"] .timeline-dot-current {
+  background-color: var(--color-amber);
+  animation: pulse 2.4s ease-in-out 0.8s infinite;
+  box-shadow:
+    0 0 0 4px rgba(255, 180, 92, 0.18),
+    0 0 18px rgba(255, 180, 92, 0.6);
+}
+
+.card-current {
+  box-shadow: 0 0 40px rgba(255, 180, 92, 0.08);
+}
+
+/* ───────── Contact ───────── */
+
+.contact-btn {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.contact-btn:hover {
+  background-color: rgba(94, 240, 143, 0.08);
+  border-color: var(--color-green);
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(94, 240, 143, 0.15);
+}
+
+/* ───────── Keyframes ───────── */
+
+@keyframes type {
+  from { width: 0; }
+  to { width: 6ch; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+@keyframes flicker {
+  0% { opacity: 0; filter: blur(6px); }
+  40% { opacity: 0.9; filter: blur(0); }
+  50% { opacity: 0.55; }
+  62%, 100% { opacity: 1; }
+}
+
+@keyframes scan {
+  from { transform: translateY(0); }
+  to { transform: translateY(600px); }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(255, 180, 92, 0.18), 0 0 18px rgba(255, 180, 92, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 9px rgba(255, 180, 92, 0.06), 0 0 28px rgba(255, 180, 92, 0.8);
+  }
+}
+
+/* ───────── 모션 최소화: 모든 요소를 최종 상태로 바로 표시 ───────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .scanband {
+    display: none;
+  }
+
+  .reveal-card {
+    opacity: 1;
+    transform: none;
+  }
+
+  .timeline-dot {
+    background-color: var(--color-green);
+    box-shadow: 0 0 0 4px rgba(94, 240, 143, 0.16), 0 0 16px rgba(94, 240, 143, 0.7);
+  }
+
+  .timeline-dot-current {
+    background-color: var(--color-amber);
+    box-shadow: 0 0 0 4px rgba(255, 180, 92, 0.18), 0 0 18px rgba(255, 180, 92, 0.6);
+  }
+}
