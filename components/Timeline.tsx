@@ -1,4 +1,5 @@
 import { journey, journeyTitle, type JourneyEntry } from "@/data/journey";
+import ClampText from "./ClampText";
 import RevealItem from "./RevealItem";
 
 /** 끝에 붙은 "(2018 — 2020)" 같은 괄호는 줄이 바뀌어도 한 덩어리로 넘어가게 함 */
@@ -9,6 +10,15 @@ function HighlightText({ text }: { text: string }) {
     <span className="text-soft">
       {match[1]} <span className="whitespace-nowrap">{match[2]}</span>
     </span>
+  );
+}
+
+/** 폰에서 태그 대신 쓰는 한 줄 텍스트. 예: "stack Java · SQL · Spring Boot" */
+function TagLine({ label, tags }: { label: string; tags: string[] }) {
+  return (
+    <p className="font-mono text-xs leading-[1.7] text-body sm:hidden">
+      <span className="text-green">{label}</span> {tags.join(" · ")}
+    </p>
   );
 }
 
@@ -60,9 +70,10 @@ function Card({ entry }: { entry: JourneyEntry }) {
         </div>
       )}
 
-      <p className={`text-[15px] leading-[1.75] ${current ? "text-[#c9bba8]" : "text-body"}`}>
-        {entry.description}
-      </p>
+      <ClampText
+        text={entry.description}
+        className={`text-[15px] leading-[1.75] ${current ? "text-[#c9bba8]" : "text-body"}`}
+      />
 
       {entry.highlights && (
         <ul className="flex flex-col gap-2 rounded-lg border border-[#1a241e] bg-panel-deep px-4 py-3.5 font-mono text-[13px] leading-normal">
@@ -77,8 +88,9 @@ function Card({ entry }: { entry: JourneyEntry }) {
         </ul>
       )}
 
+      {entry.stack && <TagLine label="stack" tags={entry.stack} />}
       {entry.stack && (
-        <ul aria-label="사용 스택" className="flex flex-wrap gap-2 font-mono text-xs">
+        <ul aria-label="사용 스택" className="hidden flex-wrap gap-2 font-mono text-xs sm:flex">
           {entry.stack.map((tag) => (
             <li key={tag} className="rounded-md border border-line-strong px-2.5 py-[5px] text-soft">
               {tag}
@@ -103,8 +115,9 @@ function Card({ entry }: { entry: JourneyEntry }) {
         </div>
       )}
 
+      {entry.skills && <TagLine label="focus" tags={entry.skills} />}
       {entry.skills && (
-        <ul aria-label="학습 중인 기술" className="flex flex-wrap gap-2 font-mono text-[13px]">
+        <ul aria-label="학습 중인 기술" className="hidden flex-wrap gap-2 font-mono text-[13px] sm:flex">
           {entry.skills.map((tag) => (
             <li key={tag} className="rounded-md border border-green/30 bg-green/7 px-3 py-1.5 text-green">
               {tag}
@@ -143,10 +156,12 @@ export default function Timeline() {
       </header>
 
       <div className="relative w-full max-w-[1200px]">
-        {/* 세로선: 모바일은 왼쪽, 데스크톱은 가운데 */}
+        {/* 1120px 미만: 왼쪽 세로선 한 줄 배치. 화면 끝→동그라미와 동그라미→카드 간격을
+            섹션 좌우 여백(폰 16px, 640px 이상 48px)과 같게 맞춤. 동그라미 12px, 중심 6px.
+            1120px 이상: 가운데 세로선 기준 좌우 번갈아 배치 */}
         <div
           aria-hidden="true"
-          className="absolute top-2 bottom-2 left-3 w-0.5 bg-rail md:left-1/2 md:-translate-x-1/2"
+          className="absolute top-2 bottom-2 left-[5px] w-0.5 bg-rail min-[1120px]:left-1/2 min-[1120px]:-translate-x-1/2"
         />
 
         <ol className="flex flex-col gap-5 md:gap-8">
@@ -155,19 +170,19 @@ export default function Timeline() {
             return (
               <RevealItem
                 key={entry.kind + i}
-                className="relative pl-9 md:grid md:grid-cols-[minmax(0,1fr)_96px_minmax(0,1fr)] md:items-start md:pl-0"
+                className="relative pl-7 sm:pl-[60px] min-[1120px]:grid min-[1120px]:grid-cols-[minmax(0,1fr)_96px_minmax(0,1fr)] min-[1120px]:items-start min-[1120px]:pl-0!"
               >
                 <div
-                  className="absolute top-7 left-[7px] md:static md:col-start-2 md:row-start-1 md:flex md:justify-center md:pt-[34px]"
+                  className="absolute top-7 left-0 min-[1120px]:static min-[1120px]:col-start-2 min-[1120px]:row-start-1 min-[1120px]:flex min-[1120px]:justify-center min-[1120px]:pt-[34px]"
                 >
                   <span
                     aria-hidden="true"
-                    className={`timeline-dot block size-3 rounded-full md:size-3.5 ${
+                    className={`timeline-dot block size-3 rounded-full min-[1120px]:size-3.5 ${
                       entry.current ? "timeline-dot-current" : ""
                     }`}
                   />
                 </div>
-                <div className={`md:row-start-1 ${onRight ? "md:col-start-3" : "md:col-start-1"}`}>
+                <div className={`min-[1120px]:row-start-1 ${onRight ? "min-[1120px]:col-start-3" : "min-[1120px]:col-start-1"}`}>
                   <Card entry={entry} />
                 </div>
               </RevealItem>
