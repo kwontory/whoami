@@ -19,8 +19,9 @@
   --color-muted: #7d8a82;
   --color-faint: #5b665f;
 
-  --font-sans: var(--font-noto-sans-kr), "Apple SD Gothic Neo", sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif;
+  /* JetBrains Mono에 없는 한글은 Pretendard로 표시 */
+  --font-mono: var(--font-jetbrains-mono), "Pretendard Variable", ui-monospace, monospace;
 }
 
 html {
@@ -107,10 +108,37 @@ body {
 }
 
 .name-glow {
-  text-shadow:
-    0 0 18px rgba(94, 240, 143, 0.55),
-    0 0 48px rgba(94, 240, 143, 0.25);
   animation: flicker 1.2s ease 1.8s both;
+}
+
+/* 이름 ASCII 아트: 가로 --cols 글자가 터미널 안쪽 너비에 딱 맞도록 글자 크기를 계산.
+   JetBrains Mono 한 글자 폭은 0.6em, 여유분을 두고 0.62로 나눔.
+   76px / 190px = 좌우 여백 합 (섹션 + 터미널 안쪽), 740px = 데스크톱에서 아트가 차지할 최대 너비 */
+.name-art {
+  display: block;
+  white-space: pre;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0;
+  font-size: calc((100vw - 76px) / (var(--cols) * 0.62));
+}
+
+@media (min-width: 640px) {
+  .name-art {
+    font-size: min(calc((100vw - 190px) / (var(--cols) * 0.62)), calc(740px / (var(--cols) * 0.62)));
+  }
+}
+
+.name-ink {
+  color: var(--color-green);
+  text-shadow:
+    0 0 10px rgba(94, 240, 143, 0.55),
+    0 0 28px rgba(94, 240, 143, 0.25);
+}
+
+.name-blank {
+  color: rgba(94, 240, 143, 0.16);
 }
 
 .hero-sub {

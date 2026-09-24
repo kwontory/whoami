@@ -1,3 +1,7 @@
+// `$ cat ~/journey.log` 아래 섹션 제목.
+// 줄바꿈은 화면 너비에 맞춰 단어 단위로 자동 조절되니 <br>이나 \n 없이 한 줄로 적으면 됩니다.
+export const journeyTitle = "동작하는 코드에서 그 기반까지";
+
 // 타임라인 항목. 배열 순서대로 위에서 아래로 표시됩니다.
 // 선택 필드(stack, skills, highlights, logs, command)는 있는 것만 렌더링됩니다.
 
