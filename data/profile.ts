@@ -4,5 +4,5 @@ export const profile = {
   from: "백엔드 개발자",
   to: "인프라 엔지니어",
   // 푸터 저작권 연도
-  since: "[YYYY]",
+  since: "2026",
 } as const;
