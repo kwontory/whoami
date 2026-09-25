@@ -41,6 +41,8 @@ npm run build   # 프로덕션 빌드 확인
 npm run name-art -- 권지현
 ```
 
+화면에는 글자가 아니라 SVG 도형으로 그립니다. JetBrains Mono Bold의 `#`과 `.` 외곽선을 `components/Hero.tsx`에 넣어 두고, 한 칸씩 반복되는 패턴으로 채웁니다. 휴대폰에서 사용자가 지정한 글꼴이나 대체 글꼴이 쓰여도 아트 모양이 달라지지 않습니다.
+
 ## 폴더 구조
 
 ```
@@ -49,7 +51,7 @@ app/
   page.tsx          섹션 배치
   globals.css       테마 색상, 애니메이션, 모션 줄이기 설정
 components/
-  Hero.tsx          첫 화면 터미널
+  Hero.tsx          첫 화면 터미널과 이름 아트(SVG)
   About.tsx         about.txt 소개
   Timeline.tsx      journey.log 타임라인
   RevealItem.tsx    스크롤하면 카드가 나타나게 하는 부분
@@ -65,10 +67,11 @@ scripts/
 - Tailwind는 `app/`과 `components/` 폴더만 읽습니다. 다른 폴더에서 Tailwind 클래스를 쓰려면 `app/globals.css` 맨 위에 `@source`를 한 줄 추가해 주세요.
 - JetBrains Mono는 `next/font`가 빌드할 때 Google Fonts에서 받아오기 때문에, 빌드 환경에 인터넷 연결이 필요합니다.
 - 브라우저에서 모션 줄이기 설정을 켜 두면 애니메이션 없이 완성된 화면이 바로 보입니다.
+- 첫 화면 터미널은 640px 이상에서 16:9 비율이고, 내용이 길면 그만큼 늘어납니다. 가로로 둔 태블릿처럼 높이가 낮은 화면(폭 640px 이상, 높이 780px 이하)에서는 터미널과 SCROLL 버튼이 한 화면에 들어오도록 크기와 여백을 줄입니다. 이 조건은 `app/globals.css`의 `short` 변형으로 정해 두었습니다.
 
 ## 글꼴
 
-- [JetBrains Mono](https://www.jetbrains.com/lp/mono/): 코드와 터미널 텍스트
+- [JetBrains Mono](https://www.jetbrains.com/lp/mono/): 코드와 터미널 텍스트, 이름 아트의 `#`·`.` 모양
 - [Pretendard](https://github.com/orioncactus/pretendard): 한글 본문
 - [갈무리](https://github.com/quiple/galmuri): 이름 아트 생성에만 사용
 
