@@ -2,6 +2,9 @@
 @source "../app";
 @source "../components";
 
+/* 가로로 둔 태블릿처럼 폭은 넓은데 높이가 낮은 화면 */
+@custom-variant short (@media (min-width: 640px) and (max-height: 780px));
+
 @theme inline {
   --color-ink: #07090a;
   --color-panel: #0c110e;
@@ -64,6 +67,28 @@ body {
     0 30px 80px rgba(0, 0, 0, 0.6);
 }
 
+/* 16:9 가로형. aspect-ratio는 flex 항목에서 내용이 길어도 늘어나지 않아(내용이 잘리거나 테두리 밖으로 넘침)
+   폭을 직접 계산해 높이를 min-height로 줌. 가로로 둔 태블릿처럼 화면 높이가 낮으면 SCROLL 버튼까지
+   한 화면에 들어오도록 폭을 줄이되, 가로로 둔 폰에서 너무 작아지지 않게 560px 아래로는 줄이지 않음.
+   272px = 섹션 위아래 여백 + 위쪽 빈칸과 SCROLL 버튼 + 간격 (낮은 화면은 여백을 줄여 192px) */
+@media (min-width: 640px) {
+  .hero {
+    container-type: inline-size;
+  }
+
+  .terminal {
+    --terminal-w: min(960px, max(560px, calc((100svh - 272px) * 16 / 9)), 100cqw);
+    max-width: var(--terminal-w);
+    min-height: calc(var(--terminal-w) * 9 / 16);
+  }
+}
+
+@media (min-width: 640px) and (max-height: 780px) {
+  .terminal {
+    --terminal-w: min(960px, max(560px, calc((100svh - 192px) * 16 / 9)), 100cqw);
+  }
+}
+
 .scanlines {
   background-image: repeating-linear-gradient(
     0deg,
@@ -111,34 +136,12 @@ body {
   animation: flicker 1.2s ease 1.8s both;
 }
 
-/* 이름 ASCII 아트: 가로 --cols 글자가 터미널 안쪽 너비에 딱 맞도록 글자 크기를 계산.
-   JetBrains Mono 한 글자 폭은 0.6em, 여유분을 두고 0.62로 나눔.
-   76px / 190px = 좌우 여백 합 (섹션 + 터미널 안쪽), 740px = 데스크톱에서 아트가 차지할 최대 너비 */
+/* 이름 ASCII 아트(SVG): 터미널 안쪽 너비에 맞춰 늘고 줄며, 데스크톱에서는 최대 716px */
 .name-art {
   display: block;
-  white-space: pre;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: 0;
-  font-size: calc((100vw - 76px) / (var(--cols) * 0.62));
-}
-
-@media (min-width: 640px) {
-  .name-art {
-    font-size: min(calc((100vw - 190px) / (var(--cols) * 0.62)), calc(740px / (var(--cols) * 0.62)));
-  }
-}
-
-.name-ink {
-  color: var(--color-green);
-  text-shadow:
-    0 0 10px rgba(94, 240, 143, 0.55),
-    0 0 28px rgba(94, 240, 143, 0.25);
-}
-
-.name-blank {
-  color: rgba(94, 240, 143, 0.16);
+  width: 100%;
+  max-width: 716px;
+  height: auto;
 }
 
 .hero-sub {
