@@ -38,7 +38,7 @@ export default function ClampText({ text, className = "" }: Props) {
           aria-expanded={open}
           aria-controls={id}
           onClick={() => setOpen(!open)}
-          className="-my-2 -ml-1 min-h-11 self-start px-1 font-mono text-[13px] text-green sm:hidden"
+          className="-my-2 -ml-1 min-h-11 self-start px-1 font-mono text-[13px] text-fg sm:hidden"
         >
           {open ? "접기" : "더 보기"}
         </button>

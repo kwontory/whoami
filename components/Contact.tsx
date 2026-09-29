@@ -37,7 +37,7 @@ export default function Contact() {
     >
       <div className="flex flex-col items-center gap-3 text-center">
         <p className="font-mono text-sm text-muted md:text-lg">
-          <span className="text-green">$</span> {outroCommand}
+          <span className="text-fg">$</span> {outroCommand}
         </p>
         {/* 문장마다 inline-block으로 묶어 문장 사이에서만 줄바꿈.
             아주 좁은 화면에서 한 문장이 넘치면 그 안에서는 단어 단위로 줄바꿈 */}
@@ -74,7 +74,7 @@ export default function Contact() {
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="#5ef08f"
+                      stroke="#1d1d1f"
                       strokeWidth="1.8"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -94,9 +94,9 @@ export default function Contact() {
         </>
       )}
 
-      <footer className="flex flex-col items-center gap-1.5 pt-16 font-mono text-xs text-faint">
+      <footer className="flex flex-col items-center gap-1.5 pt-16 font-mono text-xs text-muted">
         <span>
-          <span className="text-green">exit</span> 0
+          <span className="text-fg">exit</span> 0
         </span>
         <span>
           © {profile.since} {profile.name}

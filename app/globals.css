@@ -6,21 +6,25 @@
 @custom-variant short (@media (min-width: 640px) and (max-height: 780px));
 
 @theme inline {
-  --color-ink: #07090a;
-  --color-panel: #0c110e;
-  --color-panel-deep: #080b09;
-  --color-bar: #0f1512;
-  --color-line: #1c2820;
-  --color-line-strong: #25332a;
-  --color-rail: #1d2a22;
-  --color-green: #5ef08f;
-  --color-amber: #ffb45c;
-  --color-fg: #e6ede8;
-  --color-fg-strong: #f2f6f3;
-  --color-soft: #c3cec7;
-  --color-body: #a4b0a8;
-  --color-muted: #7d8a82;
-  --color-faint: #5b665f;
+  /* 밝은 macOS 터미널(v2). 포인트 색 없이 먹색 한 가지로 강조 */
+  --color-page: #ffffff;
+  --color-panel: #ffffff;
+  --color-panel-deep: #f7f7f5;
+  --color-bar: #f4f4f2;
+  --color-frame: #d4d4d2;
+  --color-bar-line: #e0e0de;
+  --color-line: #e7e7e4;
+  --color-line-soft: #ededea;
+  --color-line-strong: #e2e2df;
+  --color-rule: #e5e5e2;
+  --color-rail: #e3e3e0;
+  --color-halo: #f1f1f1;
+  --color-fg: #1d1d1f;
+  --color-fg-strong: #111111;
+  --color-soft: #3a3a3c;
+  --color-body: #55555a;
+  --color-muted: #6e6e73;
+  --color-title: #4a4a4c;
 
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif;
   /* JetBrains Mono에 없는 한글은 Pretendard로 표시 */
@@ -29,32 +33,22 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
-  background-color: var(--color-ink);
-  background-image:
-    linear-gradient(rgba(94, 240, 143, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(94, 240, 143, 0.045) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background-color: var(--color-page);
   color: var(--color-fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-@media (max-width: 767px) {
-  body {
-    background-size: 32px 32px;
-  }
-}
-
 ::selection {
-  background: rgba(94, 240, 143, 0.3);
+  background: rgba(29, 29, 31, 0.12);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-green);
+  outline: 2px solid var(--color-fg);
   outline-offset: 4px;
 }
 
@@ -62,9 +56,15 @@ body {
 
 .terminal {
   box-shadow:
-    0 0 0 1px rgba(94, 240, 143, 0.06),
-    0 0 60px rgba(94, 240, 143, 0.12),
-    0 30px 80px rgba(0, 0, 0, 0.6);
+    0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 0 48px rgba(29, 29, 31, 0.08),
+    0 0 120px rgba(29, 29, 31, 0.06),
+    0 20px 50px rgba(0, 0, 0, 0.05);
+}
+
+/* 타이틀 바 글자는 macOS 창 제목처럼 시스템 글꼴 */
+.terminal-title {
+  font-family: -apple-system, BlinkMacSystemFont, var(--font-sans);
 }
 
 /* 16:9 가로형. aspect-ratio는 flex 항목에서 내용이 길어도 늘어나지 않아(내용이 잘리거나 테두리 밖으로 넘침)
@@ -77,7 +77,7 @@ body {
   }
 
   .terminal {
-    --terminal-w: min(960px, max(560px, calc((100svh - 272px) * 16 / 9)), 100cqw);
+    --terminal-w: min(800px, max(560px, calc((100svh - 272px) * 16 / 9)), 100cqw);
     max-width: var(--terminal-w);
     min-height: calc(var(--terminal-w) * 9 / 16);
   }
@@ -85,25 +85,8 @@ body {
 
 @media (min-width: 640px) and (max-height: 780px) {
   .terminal {
-    --terminal-w: min(960px, max(560px, calc((100svh - 192px) * 16 / 9)), 100cqw);
+    --terminal-w: min(800px, max(560px, calc((100svh - 192px) * 16 / 9)), 100cqw);
   }
-}
-
-.scanlines {
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.028) 0px,
-    rgba(255, 255, 255, 0.028) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-}
-
-.scanband {
-  top: -120px;
-  height: 120px;
-  background-image: linear-gradient(180deg, transparent, rgba(94, 240, 143, 0.035), transparent);
-  animation: scan 7s linear infinite;
 }
 
 .type {
@@ -120,40 +103,44 @@ body {
   width: 0.6em;
   height: 1.15em;
   vertical-align: text-bottom;
-  background: var(--color-green);
-  box-shadow: 0 0 10px rgba(94, 240, 143, 0.7);
+  background: var(--color-fg);
   animation: blink 1.05s steps(1, end) infinite;
 }
 
-.cursor-amber {
+.cursor-small {
   width: 8px;
   height: 15px;
-  background: var(--color-amber);
-  box-shadow: 0 0 10px rgba(255, 180, 92, 0.7);
 }
 
-.name-glow {
-  animation: flicker 1.2s ease 1.8s both;
+/* whoami를 치는 동안만 보이는 커서. 다 치고 나면 사라짐 */
+.cursor-typing {
+  animation:
+    blink 1.05s steps(1, end) infinite,
+    hide 0s linear 1.95s forwards;
 }
 
-/* 이름 ASCII 아트(SVG): 터미널 안쪽 너비에 맞춰 늘고 줄며, 데스크톱에서는 최대 716px */
+/* 이름 ASCII 아트(SVG): 터미널 안쪽 너비에 맞춰 늘고 줄며, 데스크톱에서는 최대 555px.
+   폰에서는 터미널 안쪽 너비의 2/3 정도로 작게 */
 .name-art {
   display: block;
-  width: 100%;
-  max-width: 716px;
+  width: 67%;
   height: auto;
 }
 
-.hero-sub {
-  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 2.25s both;
+@media (min-width: 640px) {
+  .name-art {
+    width: 100%;
+    max-width: 555px;
+  }
 }
 
-.hero-prompt {
-  animation: rise 0.5s ease 2.7s both;
+/* whoami 입력이 끝나면 이름·직함·프롬프트가 함께 나타남 */
+.hero-reveal {
+  animation: reveal 0.6s ease 1.95s both;
 }
 
 .hero-scroll {
-  animation: fadein 0.8s ease 3.4s both;
+  animation: fadein 0.8s ease 2.8s both;
 }
 
 .bob {
@@ -176,30 +163,13 @@ body {
 }
 
 .timeline-dot {
-  background-color: #1a221d;
-  box-shadow: 0 0 0 4px rgba(94, 240, 143, 0);
-  transition:
-    background-color 0.5s ease 0.3s,
-    box-shadow 0.5s ease 0.3s;
+  background-color: var(--color-rail);
+  box-shadow: 0 0 0 4px var(--color-halo);
+  transition: background-color 0.5s ease 0.3s;
 }
 
 [data-visible="true"] .timeline-dot {
-  background-color: var(--color-green);
-  box-shadow:
-    0 0 0 4px rgba(94, 240, 143, 0.16),
-    0 0 16px rgba(94, 240, 143, 0.7);
-}
-
-[data-visible="true"] .timeline-dot-current {
-  background-color: var(--color-amber);
-  animation: pulse 2.4s ease-in-out 0.8s infinite;
-  box-shadow:
-    0 0 0 4px rgba(255, 180, 92, 0.18),
-    0 0 18px rgba(255, 180, 92, 0.6);
-}
-
-.card-current {
-  box-shadow: 0 0 40px rgba(255, 180, 92, 0.08);
+  background-color: var(--color-fg);
 }
 
 /* ───────── Contact ───────── */
@@ -213,10 +183,10 @@ body {
 }
 
 .contact-btn:hover {
-  background-color: rgba(94, 240, 143, 0.08);
-  border-color: var(--color-green);
+  background-color: var(--color-panel-deep);
+  border-color: var(--color-fg);
   transform: translateY(-2px);
-  box-shadow: 0 0 24px rgba(94, 240, 143, 0.15);
+  box-shadow: 0 8px 24px rgba(29, 29, 31, 0.08);
 }
 
 /* ───────── Keyframes ───────── */
@@ -230,8 +200,12 @@ body {
   50% { opacity: 0; }
 }
 
-@keyframes rise {
-  from { opacity: 0; transform: translateY(24px); }
+@keyframes hide {
+  to { visibility: hidden; }
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }
 }
 
@@ -243,27 +217,6 @@ body {
 @keyframes bob {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(8px); }
-}
-
-@keyframes flicker {
-  0% { opacity: 0; filter: blur(6px); }
-  40% { opacity: 0.9; filter: blur(0); }
-  50% { opacity: 0.55; }
-  62%, 100% { opacity: 1; }
-}
-
-@keyframes scan {
-  from { transform: translateY(0); }
-  to { transform: translateY(600px); }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 4px rgba(255, 180, 92, 0.18), 0 0 18px rgba(255, 180, 92, 0.6);
-  }
-  50% {
-    box-shadow: 0 0 0 9px rgba(255, 180, 92, 0.06), 0 0 28px rgba(255, 180, 92, 0.8);
-  }
 }
 
 /* ───────── 모션 최소화: 모든 요소를 최종 상태로 바로 표시 ───────── */
@@ -280,7 +233,7 @@ body {
     transition: none !important;
   }
 
-  .scanband {
+  .cursor-typing {
     display: none;
   }
 
@@ -290,12 +243,6 @@ body {
   }
 
   .timeline-dot {
-    background-color: var(--color-green);
-    box-shadow: 0 0 0 4px rgba(94, 240, 143, 0.16), 0 0 16px rgba(94, 240, 143, 0.7);
-  }
-
-  .timeline-dot-current {
-    background-color: var(--color-amber);
-    box-shadow: 0 0 0 4px rgba(255, 180, 92, 0.18), 0 0 18px rgba(255, 180, 92, 0.6);
+    background-color: var(--color-fg);
   }
 }

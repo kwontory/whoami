@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07090a",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {children}
         {/* JS가 꺼져 있으면 타임라인 카드를 바로 표시 */}
         <noscript>
-          <style>{`.reveal-card{opacity:1;transform:none}.timeline-dot{background-color:#5ef08f}.timeline-dot-current{background-color:#ffb45c}`}</style>
+          <style>{`.reveal-card{opacity:1;transform:none}.timeline-dot{background-color:#1d1d1f}`}</style>
         </noscript>
       </body>
     </html>

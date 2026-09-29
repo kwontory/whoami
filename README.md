@@ -4,7 +4,7 @@
 
 **사이트:** https://whoami-hazel-one.vercel.app/
 
-리눅스 터미널을 모티브로 만들었습니다. 첫 화면의 `whoami`부터 마지막 `exit 0`까지, 페이지 전체가 하나의 셸 세션처럼 읽히도록 구성했습니다.
+밝은 macOS 터미널 창을 모티브로 만들었습니다. 첫 화면의 `whoami`부터 마지막 `exit 0`까지, 페이지 전체가 하나의 셸 세션처럼 읽히도록 구성했습니다.
 
 ## 기술 스택
 
@@ -29,8 +29,8 @@ npm run build   # 프로덕션 빌드 확인
 | 파일 | 내용 |
 | --- | --- |
 | `data/profile.ts` | 이름, 직함, 푸터에 표시되는 연도 |
-| `data/about.ts` | 크게 보이는 핵심 문장(`aboutKey`)과 그 아래 소개 글. `highlight`에 적은 부분이 초록색으로 강조됩니다. |
-| `data/journey.ts` | 타임라인 제목과 카드 목록. `period`, `logs`, `highlights`, `certs`, `stack`, `skills`, `command`는 필요한 것만 적으면 되고, `current: true`인 카드는 앰버 색으로 표시됩니다. |
+| `data/about.ts` | 크게 보이는 핵심 문장(`aboutKey`)과 그 아래 소개 글. `highlight`에 적은 부분이 진한 색으로 강조됩니다. |
+| `data/journey.ts` | 타임라인 제목과 카드 목록. `period`, `logs`, `highlights`, `certs`, `stack`, `skills`, `command`는 필요한 것만 적으면 되고, `current: true`인 카드는 진한 테두리로 표시됩니다. `highlights`에서 `**0건**`처럼 감싼 부분은 굵게 표시됩니다. |
 | `data/contact.ts` | 마지막 섹션의 명령어와 인사말, 연락처 버튼. 버튼은 `hidden: true`로 숨길 수 있습니다. |
 
 ### 이름 아트 다시 만들기

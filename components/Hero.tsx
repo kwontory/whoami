@@ -46,25 +46,11 @@ function NameArt() {
       overflow="visible"
     >
       <defs>
-        {cell("name-ink", HASH, "#5ef08f")}
-        {cell("name-blank", DOT, "rgba(94, 240, 143, 0.16)")}
-        {/* 글자 크기에 비례하는 초록 빛번짐 */}
-        <filter id="name-glow" filterUnits="userSpaceOnUse" x={-3000} y={-3000} width={artW + 6000} height={artH + 6000}>
-          <feGaussianBlur in="SourceAlpha" stdDeviation="300" result="near" />
-          <feGaussianBlur in="SourceAlpha" stdDeviation="850" result="far" />
-          <feFlood floodColor="#5ef08f" floodOpacity="0.55" />
-          <feComposite in2="near" operator="in" result="nearGlow" />
-          <feFlood floodColor="#5ef08f" floodOpacity="0.25" />
-          <feComposite in2="far" operator="in" result="farGlow" />
-          <feMerge>
-            <feMergeNode in="farGlow" />
-            <feMergeNode in="nearGlow" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
+        {cell("name-ink", HASH, "#1d1d1f")}
+        {cell("name-blank", DOT, "rgba(29, 29, 31, 0.09)")}
       </defs>
       <g fill="url(#name-blank)">{runs(false)}</g>
-      <g fill="url(#name-ink)" filter="url(#name-glow)">{runs(true)}</g>
+      <g fill="url(#name-ink)">{runs(true)}</g>
     </svg>
   );
 }
@@ -72,9 +58,9 @@ function NameArt() {
 function Prompt() {
   return (
     <>
-      <span className="text-green">guest@portfolio</span>
+      <span className="text-fg">guest@portfolio</span>
       <span className="text-muted">:</span>
-      <span className="text-amber">~</span>
+      <span className="text-fg">~</span>
       <span className="text-muted">$ </span>
     </>
   );
@@ -90,50 +76,42 @@ export default function Hero() {
       <div aria-hidden="true" className="h-16 shrink-0" />
 
       {/* 640px 이상은 16:9 가로형(크기는 globals.css의 .terminal). 내용이 더 길면 비율보다 늘어남 */}
-      <div className="terminal relative my-auto flex w-full max-w-[960px] flex-col rounded-xl border border-[#1f2b24] bg-[rgba(10,14,12,0.92)] sm:rounded-[14px]">
+      <div className="terminal relative my-auto flex w-full max-w-[800px] flex-col rounded-xl border border-frame bg-panel sm:rounded-[14px]">
         {/* 타이틀 바 */}
-        <div className="flex h-[38px] items-center gap-[7px] rounded-t-[11px] border-b border-[#1a241e] bg-bar px-3.5 sm:h-11 sm:gap-2 sm:rounded-t-[13px] sm:px-[18px]">
+        <div className="flex h-[38px] items-center gap-[7px] rounded-t-[11px] border-b border-bar-line bg-bar px-3.5 sm:h-11 sm:gap-2 sm:rounded-t-[13px] sm:px-[18px]">
           <span aria-hidden="true" className="size-[11px] rounded-full bg-[#ff5f57] sm:size-3" />
           <span aria-hidden="true" className="size-[11px] rounded-full bg-[#febc2e] sm:size-3" />
           <span aria-hidden="true" className="size-[11px] rounded-full bg-[#28c840] sm:size-3" />
-          <span className="mr-[46px] grow text-center font-mono text-[11px] text-muted sm:mr-[52px] sm:text-[13px]">
-            guest@portfolio: ~<span className="hidden sm:inline"> — zsh — 120×32</span>
+          <span className="terminal-title mr-[46px] grow text-center text-[11px] font-semibold text-title sm:mr-[52px] sm:text-[13px]">
+            guest — -zsh<span className="hidden sm:inline"> — 120×32</span>
           </span>
         </div>
 
         {/* 본문: 위아래 여백을 같게 두고 내용을 세로 가운데 정렬 */}
-        <div className="relative flex grow flex-col justify-center gap-2.5 rounded-b-[11px] px-5 py-6 font-mono text-[15px] leading-normal sm:gap-4 sm:rounded-b-[13px] sm:px-11 sm:py-10 sm:text-xl short:gap-3 short:py-6">
+        <div className="relative flex grow flex-col justify-center gap-2.5 rounded-b-[11px] px-5 py-6 font-mono text-[13px] leading-normal sm:gap-4 sm:rounded-b-[13px] sm:px-11 sm:py-10 sm:text-xl short:gap-3 short:py-6">
           <div>
             <Prompt />
             <span className="type text-fg">whoami</span>
+            <span className="cursor cursor-typing" aria-hidden="true" />
           </div>
 
-          <h1 className="name-glow my-1 sm:my-2">
+          <h1 className="hero-reveal my-1 sm:my-2">
             <span className="sr-only">{profile.name}</span>
             <NameArt />
           </h1>
 
           {/* 화살표 양옆 간격은 gap 하나로 맞춤. 줄이 바뀌면 화살표가 다음 직함과 함께 넘어감 */}
-          <p className="hero-sub flex flex-wrap items-baseline gap-x-3 text-[15px] leading-[1.7] break-keep text-soft sm:text-xl sm:leading-normal">
+          <p className="hero-reveal flex flex-wrap items-baseline gap-x-2.5 text-[13px] leading-[1.7] break-keep text-soft sm:gap-x-3 sm:text-xl sm:leading-normal">
             <span>{profile.from}</span>
-            <span className="inline-flex items-baseline gap-x-3 whitespace-nowrap">
-              <span className="text-amber">→</span>
-              <span className="font-bold text-white">{profile.to}</span>
+            <span className="inline-flex items-baseline gap-x-2.5 whitespace-nowrap sm:gap-x-3">
+              <span className="text-fg">→</span>
+              <span className="font-bold text-fg-strong">{profile.to}</span>
             </span>
           </p>
 
-          <div className="hero-prompt mt-2.5 sm:mt-3.5">
+          <div className="hero-reveal mt-2.5 sm:mt-3.5">
             <Prompt />
             <span className="cursor" aria-hidden="true" />
-          </div>
-
-          {/* 주사선 효과만 잘라냄. 본문에 overflow-hidden을 두면 내용이 길 때 위아래가 잘림 */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 overflow-hidden rounded-b-[11px] sm:rounded-b-[13px]"
-          >
-            <div className="scanlines absolute inset-0" />
-            <div className="scanband absolute inset-x-0" />
           </div>
         </div>
       </div>
@@ -141,7 +119,7 @@ export default function Hero() {
       <a
         href="#about"
         aria-label="다음 섹션으로 스크롤"
-        className="hero-scroll flex min-h-16 w-20 shrink-0 flex-col items-center justify-end gap-1.5 pl-[0.3em] font-mono text-[11px] tracking-[0.3em] text-muted no-underline transition-colors hover:text-green sm:text-xs"
+        className="hero-scroll flex min-h-16 w-20 shrink-0 flex-col items-center justify-end gap-1.5 pl-[0.3em] font-mono text-[11px] tracking-[0.3em] text-muted no-underline transition-colors hover:text-fg sm:text-xs"
       >
         <span>SCROLL</span>
         <svg
@@ -150,7 +128,7 @@ export default function Hero() {
           height="22"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#5ef08f"
+          stroke="#1d1d1f"
           strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"

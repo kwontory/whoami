@@ -5,6 +5,7 @@ export const journeyTitle = "동작하는 코드에서 그 기반까지";
 // 타임라인 항목. 배열 순서대로 위에서 아래로 표시됩니다.
 // 선택 필드(stack, skills, highlights, logs, certs, command)는 있는 것만 렌더링됩니다.
 
+/** 카드 구분용 이름. 화면에는 표시하지 않음 */
 export type JourneyKind = "init" | "build" | "incident" | "learn" | "now";
 
 export type LogLine = {
@@ -27,9 +28,9 @@ export type JourneyEntry = {
   description: string;
   /** 회색 테두리 태그 (사용 스택). 언어 → 프레임워크 → DB → 도구 순으로 적기 */
   stack?: string[];
-  /** 초록색 강조 태그 (학습 중인 기술) */
+  /** 강조 태그 (학습 중인 기술) */
   skills?: string[];
-  /** ✓ 체크리스트 (대표 성과) */
+  /** ✓ 체크리스트 (대표 성과). **숫자**처럼 감싸면 굵게 표시 */
   highlights?: string[];
   /** 터미널 로그 블록 (장애 기록) */
   logs?: LogLine[];
@@ -37,7 +38,7 @@ export type JourneyEntry = {
   certs?: Cert[];
   /** 카드 하단 커맨드 라인 */
   command?: string;
-  /** 현재 위치: 앰버 색으로 강조 */
+  /** 현재 위치: 진한 테두리로 강조 */
   current?: boolean;
 };
 
@@ -45,13 +46,13 @@ export const journey: JourneyEntry[] = [
   {
     kind: "init",
     period: "2016.03 — 2023.11",
-    title: "데이터를 보던 눈으로, 첫 커밋",
+    title: "데이터를 보던 눈으로, 개발을 시작하다",
     description:
       "경제와 통계를 전공하며 Python과 SQL로 데이터를 다뤘고, 이때 개발에 관심을 갖게 되었습니다. 이후 웹 개발 과정에서 Java·Spring 백엔드와 DB 설계를 배웠습니다. 과정 중에는 담당 선생님이 매주 직접 오가며 출결을 확인하시는 모습이 불편해 보여, 팀 프로젝트로 출결 관리 시스템을 처음 구상하고 만들었습니다.",
     highlights: [
       "학부연구생 · 연구 데이터 전처리, STATA 통계 분석 지원 (2018 — 2020)",
       "MERS 사태 연구 참여, 국제 학술지(SSCI) 공동 저자 등재 (2021.04)",
-      "웹 개발 과정 984시간 수료 (2023.03 — 2023.11)",
+      "웹 개발 과정 **984시간** 수료 (2023.03 — 2023.11)",
     ],
     stack: ["Java", "SQL", "Spring Boot", "Spring Data JPA", "MariaDB", "Git", "Docker"],
   },
@@ -62,10 +63,10 @@ export const journey: JourneyEntry[] = [
     description:
       "SI 개발부에서 백엔드 개발자로 일하며 공공기관 정보시스템 3건을 구축하고 3건을 유지보수했습니다. 예약 시스템과 MIS 등의 설계부터 쿼리 튜닝, 운영까지 맡았습니다.",
     highlights: [
-      "예약번호 동시성 문제 해결 → 중복 예약 0건",
-      "예약 조회 5~10초 → 1초 이내 (인덱스 튜닝)",
-      "통합 예약 API 응답 1.8초 → 0.8초",
-      "간접원가 배부 프로시저 1분 → 1초 이내",
+      "예약번호 동시성 문제 해결 → 중복 예약 **0건**",
+      "예약 조회 **5~10초 → 1초 이내** (인덱스 튜닝)",
+      "통합 예약 API 응답 **1.8초 → 0.8초**",
+      "간접원가 배부 프로시저 **1분 → 1초 이내**",
     ],
     stack: [
       "Java",

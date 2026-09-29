@@ -2,13 +2,31 @@ import { journey, journeyTitle, type JourneyEntry } from "@/data/journey";
 import ClampText from "./ClampText";
 import RevealItem from "./RevealItem";
 
+/** **숫자**처럼 감싼 부분은 굵게 */
+function Emphasis({ text }: { text: string }) {
+  return text.split(/\*\*(.+?)\*\*/).map((part, i) =>
+    i % 2 ? (
+      <strong key={i} className="font-bold text-fg-strong">
+        {part}
+      </strong>
+    ) : (
+      part
+    ),
+  );
+}
+
 /** 끝에 붙은 "(2018 — 2020)" 같은 괄호는 줄이 바뀌어도 한 덩어리로 넘어가게 함 */
 function HighlightText({ text }: { text: string }) {
   const match = text.match(/^(.*?)\s*(\([^()]*\))$/);
-  if (!match) return <span className="text-soft">{text}</span>;
+  if (!match)
+    return (
+      <span className="text-soft">
+        <Emphasis text={text} />
+      </span>
+    );
   return (
     <span className="text-soft">
-      {match[1]} <span className="whitespace-nowrap">{match[2]}</span>
+      <Emphasis text={match[1]} /> <span className="whitespace-nowrap">{match[2]}</span>
     </span>
   );
 }
@@ -17,7 +35,7 @@ function HighlightText({ text }: { text: string }) {
 function TagLine({ label, tags }: { label: string; tags: string[] }) {
   return (
     <p className="font-mono text-xs leading-[1.7] text-body sm:hidden">
-      <span className="text-green">{label}</span> {tags.join(" · ")}
+      <span className="text-fg">{label}</span> {tags.join(" · ")}
     </p>
   );
 }
@@ -27,39 +45,22 @@ function Card({ entry }: { entry: JourneyEntry }) {
 
   return (
     <article
-      className={`reveal-card flex flex-col gap-3.5 rounded-xl break-keep border px-5 py-[22px] sm:px-[30px] sm:py-7 ${
-        current ? "card-current border-amber/45 bg-[#120f0a]" : "border-line bg-panel"
+      className={`reveal-card flex flex-col gap-3.5 rounded-xl break-keep bg-panel px-5 py-[22px] sm:px-[30px] sm:py-7 ${
+        current ? "border-2 border-soft" : "border border-line"
       }`}
     >
-      <div className="flex items-center justify-between gap-3 font-mono text-[13px]">
-        <span
-          className={`rounded-md border px-2.5 py-1 ${
-            current
-              ? "border-amber/40 bg-amber/12 text-amber"
-              : "border-green/25 bg-green/10 text-green"
-          }`}
-        >
-          {entry.kind}
-        </span>
-        {entry.period && (
-          <span className={`text-right ${current ? "text-amber" : "text-muted"}`}>{entry.period}</span>
-        )}
-      </div>
+      {entry.period && <p className="font-mono text-[13px] text-muted">{entry.period}</p>}
 
-      <h3
-        className={`text-xl font-bold sm:text-[23px] ${current ? "text-[#ffd6a3]" : "text-fg-strong"}`}
-      >
-        {entry.title}
-      </h3>
+      <h3 className="text-xl font-bold text-fg-strong sm:text-[23px]">{entry.title}</h3>
 
       {entry.logs && (
-        <div className="rounded-lg border border-[#1a241e] bg-panel-deep px-4 py-3 font-mono text-[13px] leading-[1.7]">
+        <div className="rounded-lg border border-line-soft bg-panel-deep px-4 py-3 font-mono text-[13px] leading-[1.7]">
           {entry.logs.map((log, i) => (
             <div key={i}>
               <span className="text-muted">{log.time}</span>{" "}
               <span
                 className={`font-bold ${
-                  log.level === "ALERT" ? "text-amber" : log.level === "INFO" ? "text-fg" : "text-green"
+                  log.level === "ALERT" ? "text-fg-strong" : "text-fg"
                 }`}
               >
                 {log.level}
@@ -72,14 +73,14 @@ function Card({ entry }: { entry: JourneyEntry }) {
 
       <ClampText
         text={entry.description}
-        className={`text-[15px] leading-[1.75] ${current ? "text-[#c9bba8]" : "text-body"}`}
+        className={`text-[15px] leading-[1.75] ${current ? "text-soft" : "text-body"}`}
       />
 
       {entry.highlights && (
-        <ul className="flex flex-col gap-2 rounded-lg border border-[#1a241e] bg-panel-deep px-4 py-3.5 font-mono text-[13px] leading-normal">
+        <ul className="flex flex-col gap-2 rounded-lg border border-line-soft bg-panel-deep px-4 py-3.5 font-mono text-[13px] leading-normal">
           {entry.highlights.map((item) => (
             <li key={item}>
-              <span className="text-green" aria-hidden="true">
+              <span className="text-fg" aria-hidden="true">
                 ✓
               </span>{" "}
               <HighlightText text={item} />
@@ -100,9 +101,9 @@ function Card({ entry }: { entry: JourneyEntry }) {
       )}
 
       {entry.certs && (
-        <div className="rounded-lg border border-[#1a241e] bg-panel-deep px-4 py-3 font-mono text-[13px] leading-[1.8]">
+        <div className="rounded-lg border border-line-soft bg-panel-deep px-4 py-3 font-mono text-[13px] leading-[1.8]">
           <p className="text-muted">
-            <span className="text-green">$</span> ls -tr ~/certs
+            <span className="text-fg">$</span> ls -tr ~/certs
           </p>
           <ul aria-label="자격증">
             {entry.certs.map((cert) => (
@@ -119,7 +120,7 @@ function Card({ entry }: { entry: JourneyEntry }) {
       {entry.skills && (
         <ul aria-label="학습 중인 기술" className="hidden flex-wrap gap-2 font-mono text-[13px] sm:flex">
           {entry.skills.map((tag) => (
-            <li key={tag} className="rounded-md border border-green/30 bg-green/7 px-3 py-1.5 text-green">
+            <li key={tag} className="rounded-md border border-fg/18 bg-fg/6 px-3 py-1.5 text-fg">
               {tag}
             </li>
           ))}
@@ -127,9 +128,9 @@ function Card({ entry }: { entry: JourneyEntry }) {
       )}
 
       {entry.command && (
-        <div className="font-mono text-[13px] text-amber">
+        <div className="font-mono text-[13px] text-fg">
           $ {entry.command}
-          <span className="cursor cursor-amber ml-1.5" aria-hidden="true" />
+          <span className="cursor cursor-small ml-1.5" aria-hidden="true" />
         </div>
       )}
     </article>
@@ -145,7 +146,7 @@ export default function Timeline() {
     >
       <header className="flex flex-col gap-3 md:items-center md:gap-4 md:text-center">
         <p className="font-mono text-sm text-muted md:text-lg">
-          <span className="text-green">$</span> cat ~/journey.log
+          <span className="text-fg">$</span> cat ~/journey.log
         </p>
         <h2
           id="journey-title"
@@ -158,7 +159,7 @@ export default function Timeline() {
       <div className="relative w-full max-w-[1200px]">
         {/* 1120px 미만: 왼쪽 세로선 한 줄 배치. 화면 끝→동그라미와 동그라미→카드 간격을
             섹션 좌우 여백(폰 16px, 640px 이상 48px)과 같게 맞춤. 동그라미 12px, 중심 6px.
-            1120px 이상: 가운데 세로선 기준 좌우 번갈아 배치 */}
+            1120px 이상: 가운데 세로선 기준 좌우 번갈아 배치, 동그라미는 카드 세로 가운데 */}
         <div
           aria-hidden="true"
           className="absolute top-2 bottom-2 left-[5px] w-0.5 bg-rail min-[1120px]:left-1/2 min-[1120px]:-translate-x-1/2"
@@ -173,13 +174,11 @@ export default function Timeline() {
                 className="relative pl-7 sm:pl-[60px] min-[1120px]:grid min-[1120px]:grid-cols-[minmax(0,1fr)_96px_minmax(0,1fr)] min-[1120px]:items-start min-[1120px]:pl-0!"
               >
                 <div
-                  className="absolute top-7 left-0 min-[1120px]:static min-[1120px]:col-start-2 min-[1120px]:row-start-1 min-[1120px]:flex min-[1120px]:justify-center min-[1120px]:pt-[34px]"
+                  className="absolute top-7 left-0 z-1 min-[1120px]:relative min-[1120px]:inset-auto min-[1120px]:col-start-2 min-[1120px]:row-start-1 min-[1120px]:flex min-[1120px]:justify-center min-[1120px]:self-center"
                 >
                   <span
                     aria-hidden="true"
-                    className={`timeline-dot block size-3 rounded-full min-[1120px]:size-3.5 ${
-                      entry.current ? "timeline-dot-current" : ""
-                    }`}
+                    className="timeline-dot block size-3 rounded-full min-[1120px]:size-3.5"
                   />
                 </div>
                 <div className={`min-[1120px]:row-start-1 ${onRight ? "min-[1120px]:col-start-3" : "min-[1120px]:col-start-1"}`}>
