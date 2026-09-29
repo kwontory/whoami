@@ -46,7 +46,7 @@ function Card({ entry }: { entry: JourneyEntry }) {
   return (
     <article
       className={`reveal-card flex flex-col gap-3.5 rounded-xl break-keep bg-panel px-5 py-[22px] sm:px-[30px] sm:py-7 ${
-        current ? "border-2 border-soft" : "border border-line"
+        current ? "border border-soft" : "border border-line"
       }`}
     >
       {entry.period && <p className="font-mono text-[13px] text-muted">{entry.period}</p>}
