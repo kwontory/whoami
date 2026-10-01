@@ -37,7 +37,9 @@ export default function AuthPanels({ busy, onLogin, onSignup }: Props) {
             <input className={inputClass} value={displayName} onChange={(event) => setDisplayName(event.target.value)} maxLength={80} required />
           </label>
           <label className="block text-sm text-body">{copy.signupCode}
-            <input className={inputClass} value={signupCode} onChange={(event) => setSignupCode(event.target.value)} autoComplete="off" required />
+            <input className={inputClass} type="password" name="signupCode" value={signupCode}
+              onChange={(event) => setSignupCode(event.target.value)}
+              autoComplete="current-password" autoCapitalize="off" spellCheck={false} required />
           </label>
           <label className="block text-sm text-body">{copy.passkeyName}
             <input className={inputClass} value={nickname} onChange={(event) => setNickname(event.target.value)} maxLength={60} required />
